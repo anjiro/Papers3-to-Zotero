@@ -19,13 +19,10 @@ out = list()
 with open(bibtex_library, 'r') as btlib:
     for line in btlib:
         if line.startswith('file = {'):
-            content_new = re.sub(r'^file = {{(.*?)}},?', r'file = {\1},', line, flags = re.M)
-            content_new2 = re.sub(r'^file = {(.*?);(\1)},?', r'file = {\1},', content_new, flags = re.M)
-            newline = content_new2
+            templine = re.sub(r'^file = {{(.*?)}},?', r'file = {\1},', line, flags = re.M)
+            newline = re.sub(r'^file = {(.*?);(\1)},?', r'file = {\1},', templine, flags = re.M)
             
-            if ';' in newline:
-                print(newline)
-            assert ';' not in newline
+            assert ';' not in newline ### assert there is only one file
             
             result = re.search(r"^file = {.*?:" + papers_library_string + r"(.*?)\.(.*?):(.*?/.*?)},?", newline)
 
@@ -51,7 +48,7 @@ with open(bibtex_library, 'r') as btlib:
             out.append(line)
 
 
+### New BibTeX record to import into Zotero
 with open(bibtex_library.parents[0] / 'zotero_import.bib', 'w') as outfile:
     for item in out:
         outfile.write(item)
-
