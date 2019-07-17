@@ -3,7 +3,7 @@
 
 """
 This script takes as input a BibTeX library exported from readcube/mekentosj Papers3 and outputs a BibTex library for Zotero to import.
-The script adds supplementary files from the Papers3 Library, removes duplicate links to PDFs and removes extraneous *.html and *.webarchive files that are often created by importing articles into Paper from a web browser.
+The script preserves your Papers citekeys, adds supplementary files from the Papers3 Library, removes duplicate links to PDFs and removes extraneous *.html and *.webarchive files that are often created by importing articles into Paper from a web browser.
 
 __Instructions for use__:
 
