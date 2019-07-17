@@ -21,6 +21,7 @@ __Instructions for use__:
 
 * Import the 'zotero_import.bib’ file that gets generated with Zotero.
 
+* Be sure to check the 'Import errors found:' file if Zotero generates one (if it exists, it will be in whatever folder you imported the library to; sort by title to find it).
 
 __NOTE__:
 The Collections groupings are not preserved with this method. This is one way to manually get your Papers3 Collections into Zotero after following the above instructions:
@@ -39,7 +40,7 @@ import re
 
 ### Update these paths:
 bibtex_library = Path("~/Desktop/library.bib").expanduser() ### Path to Papers BibTeX library export
-papers_library = Path("~/Documents/user's Library/Library.papers3").expanduser() ### Path to Papers3 Library
+papers_library = Path("~/Documents/daeda's Library/Library.papers3").expanduser() ### Path to Papers3 Library
 
 
 out = list()
