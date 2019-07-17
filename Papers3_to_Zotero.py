@@ -1,4 +1,5 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 This script takes as input a BibTeX library exported from readcube/mekentosj Papers3 and outputs a BibTex library for Zotero to import.
