@@ -4,24 +4,25 @@
 This script takes as input a BibTeX library exported from readcube/mekentosj Papers3 and outputs a BibTex library for Zotero to import.
 The script adds supplementary files from the Papers3 Library, removes duplicate links to PDFs and removes extraneous *.html and *.webarchive files that are often created by importing articles into Paper from a web browser.
 
-Instructions for use:
+__Instructions for use__:
+
 * Make sure to have Better BibTeX pre-installed to Zotero if you want to preserve the Papers citekeys.
 
 * Export your Papers3 library as a *.bib file.
-Export > BibTeX Library
-Make sure to set the “BibTex Record” option to “Complete”. This will cause papers to include the paths to the main PDF (or whatever) file in the *.bib export
+    Export > BibTeX Library
+    Make sure to set the “BibTex Record” option to “Complete”. This will cause papers to include the paths to the main PDF (or whatever) file in the *.bib export
 
 * In this script, update the ‘papers_library’ and ‘bibtex_library’ variables with the paths to your Papers3 library and the BibTeX library that you just exported.
-e.g.
-bibtex_library = Path(“~/Desktop/full_library_export.bib") ### Path to Papers BibTex library export
-papers_library = Path(“~/Documents/user’s Library/Library.papers3") ### Path to Papers3 Library
+    e.g.
+    bibtex_library = Path(“~/Desktop/full_library_export.bib") ### Path to Papers BibTex library export
+    papers_library = Path(“~/Documents/user’s Library/Library.papers3") ### Path to Papers3 Library
 
 * Run this script with python 3.5 or higher
 
 * Import the 'zotero_import.bib’ file that gets generated with Zotero.
 
 
-NOTE:
+__NOTE__:
 The Collections groupings are not preserved with this method. This is one way to manually get your Papers3 Collections into Zotero after following the above instructions:
 
 * Export each collection as a BibTex library (“Export” set to “Selected Collection” and “BibTex Record” set to “Standard”). This will prevent any file paths from being included in the *.bib file.
@@ -37,8 +38,8 @@ from pathlib import Path
 import re
 
 ### Update these paths:
-bibtex_library = Path("/Volumes/cristae/samadhi_daeda/Desktop/paperlib/full.bib") ### Path to Papers BibTex library export
-papers_library = Path("/Users/daeda/Documents/daeda's Library/Library.papers3") ### Path to Papers3 Library
+bibtex_library = Path("~/Desktop/library.bib").expanduser() ### Path to Papers BibTeX library export
+papers_library = Path("~/Documents/user's Library/Library.papers3").expanduser() ### Path to Papers3 Library
 
 
 out = list()
@@ -75,7 +76,7 @@ with open(bibtex_library, 'r') as btlib:
                         primary_line = re.search(r"(^file = {.*?:" + papers_library_string + r".*?\..*?:application/.*?)},?", newline)
                         newline = primary_line.group(1)
                         for x in supp_files:
-                            print(x.name)
+                            print(f'adding supplementary file for {x.name}')
                             newline += f';{x.with_suffix("").name + " Supp" + x.suffix}:{x}:application/{x.suffix}'
                         newline += '},\n'
             out.append(newline)
@@ -89,4 +90,4 @@ with open(modified_lib, 'w') as outfile:
     for item in out:
         outfile.write(item)
 
-print(f'Script appears to have completed successfully. You can now import this file into Zotero (make sure Better BibTeX is already installed): \n\t{str(modified_lib)}')
+print(f'\n\nScript appears to have completed successfully. You can now import this file into Zotero (make sure Better BibTeX is already installed): \n\t{str(modified_lib)}')
