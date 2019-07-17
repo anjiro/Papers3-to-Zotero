@@ -33,7 +33,7 @@ The Collections groupings are not preserved with this method. This is one way to
 
 * Then merge the duplicate records. That will give you a new collection with links to right papers from your Zotero library.
 
-* With this script, you have to do that for each one of your Papers3 Collections.
+* In this strategy, you have to do that for each one of your Papers3 Collections. Not ideal but maybe tolerable.
 """
 
 from pathlib import Path
