@@ -1,21 +1,56 @@
 # coding: utf-8
 
-#####
-# This script uses the BibTeX export from Papers 3 (with the BibTeX Record set to 'Compelte' such that file paths are included)
-# and searches for supplimentrary materials from those publications, and removes duplicate files that Papers includes.
-# Make sure to have Better BibTeX pre-installed if you want to preserve the Papers citekeys.
-# The Collections groupings are not preserved, if you use this script to import your full library, then export each Collection with
-# the BibTeX Record set to 'Minimal', you can import each of these to Zotero, then merge the duplicate records without duplicating files.
-#####
+"""
+This script takes as input a BibTeX library exported from readcube/mekentosj Papers3 and outputs a BibTex library for Zotero to import.
+The script adds supplementary files from the Papers3 Library, removes duplicate links to PDFs and removes extraneous *.html and *.webarchive files that are often created by importing articles into Paper from a web browser.
+
+Instructions for use:
+* Make sure to have Better BibTeX pre-installed to Zotero if you want to preserve the Papers citekeys.
+
+* Export your Papers3 library as a *.bib file.
+Export > BibTeX Library
+Make sure to set the “BibTex Record” option to “Complete”. This will cause papers to include the paths to the main PDF (or whatever) file in the *.bib export
+
+* In this script, update the ‘papers_library’ and ‘bibtex_library’ variables with the paths to your Papers3 library and the BibTeX library that you just exported.
+e.g.
+bibtex_library = Path(“~/Desktop/full_library_export.bib") ### Path to Papers BibTex library export
+papers_library = Path(“~/Documents/user’s Library/Library.papers3") ### Path to Papers3 Library
+
+* Run this script with python 3.5 or higher
+
+* Import the 'zotero_import.bib’ file that gets generated with Zotero.
+
+
+NOTE:
+The Collections groupings are not preserved with this method. This is one way to manually get your Papers3 Collections into Zotero after following the above instructions:
+
+* Export each collection as a BibTex library (“Export” set to “Selected Collection” and “BibTex Record” set to “Standard”). This will prevent any file paths from being included in the *.bib file.
+
+* Import that *.bib file directly to Zotero with the option to “Place imported collections and items into new collection” selected.
+
+* Then merge the duplicate records. That will give you a new collection with links to right papers from your Zotero library.
+
+* With this script, you have to do that for each one of your Papers3 Collections.
+"""
 
 from pathlib import Path
 import re
 
-### Update these paths
+### Update these paths:
 bibtex_library = Path("/Volumes/cristae/samadhi_daeda/Desktop/paperlib/full.bib") ### Path to Papers BibTex library export
-papers_library_string = "/Users/daeda/Documents/daeda's Library/Library.papers3/" ### requires terminal '/'
+papers_library = Path("/Users/daeda/Documents/daeda's Library/Library.papers3") ### Path to Papers3 Library
+
 
 out = list()
+papers_library_string = str(papers_library) + '/'
+
+if papers_library_string[-9:] != '.papers3/':
+    raise Exception(f'The variable \'papers_library\' should end in with \'.papers3\' but is rather: \n\t{str(papers_library)}')
+if not papers_library.exists():
+    raise Exception(f'The path you provided to the Papers3 library does not seem to exist: \n\t{str(papers_library)}')
+if not bibtex_library.exists() and bibtex_library.is_file() and bibtex_library.suffix == '.bib':
+    raise Exception(f'The path you provided to the BibTex Library file you exported from Papers3 does not seem to exist or is not \'.bib\' file: \n\t{str(bibtex_library)}') 
+
 with open(bibtex_library, 'r') as btlib:
     for line in btlib:
         if line.startswith('file = {'):
@@ -49,6 +84,9 @@ with open(bibtex_library, 'r') as btlib:
 
 
 ### New BibTeX record to import into Zotero
-with open(bibtex_library.parents[0] / 'zotero_import.bib', 'w') as outfile:
+modified_lib = bibtex_library.parents[0] / 'zotero_import.bib'
+with open(modified_lib, 'w') as outfile:
     for item in out:
         outfile.write(item)
+
+print(f'Script appears to have completed successfully. You can now import this file into Zotero (make sure Better BibTeX is already installed): \n\t{str(modified_lib)}')
