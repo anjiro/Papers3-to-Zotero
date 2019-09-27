@@ -41,17 +41,16 @@ import re
 
 ### Update these paths:
 bibtex_library = Path("~/Desktop/library.bib").expanduser() ### Path to Papers BibTeX library export
-papers_library = Path("~/Documents/daeda's Library/Library.papers3").expanduser() ### Path to Papers3 Library
-
+papers_library = Path("~/Documents/Library.papers3").expanduser() ### Path to Papers3 Library
 
 out = list()
 papers_library_string = str(papers_library) + '/'
 
 if papers_library_string[-9:] != '.papers3/':
     raise Exception(f'The variable \'papers_library\' should end in with \'.papers3\' but is rather: \n\t{str(papers_library)}')
-if not papers_library.exists():
+if not papers_library.is_dir():
     raise Exception(f'The path you provided to the Papers3 library does not seem to exist: \n\t{str(papers_library)}')
-if not bibtex_library.exists() and bibtex_library.is_file() and bibtex_library.suffix == '.bib':
+if not bibtex_library.is_file() and bibtex_library.suffix == '.bib':
     raise Exception(f'The path you provided to the BibTex Library file you exported from Papers3 does not seem to exist or is not \'.bib\' file: \n\t{str(bibtex_library)}') 
 
 with open(bibtex_library, 'r') as btlib:
