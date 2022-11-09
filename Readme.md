@@ -38,7 +38,7 @@ doable.
 	 file. That will help you get all of your papers from Papers 3 into
 	 Zotero.
 2. Make sure Papers 3 is running and you've installed the JSON Helper
-	 above. Open `Papers 3 Export Collections.scpt` and run it. This
+	 above. Open `Papers 3 Export Collections via citekey.scpt` and run it. This
 	 will create a file on your desktop called
 	 `papers_collections.json`.
 3. In Zotero, open both **Tools→Developer→Error Console** and
@@ -46,6 +46,6 @@ doable.
 	 see if anything goes horribly wrong.
 4. Copy and paste the contents of `Desktop/papers_collections.json` into the
 	 left pane of the Run JavaScript window.
-5. Copy and paste the contents of `import_papers3.js` below that.
+5. Copy and paste the contents of `import_papers3.citekey.js` below that.
 6. Make sure **Run as async function** is checked.
 7. Hit **Run** and sit back and watch.
